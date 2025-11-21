@@ -1,0 +1,40 @@
+services:
+  test_db:
+    image: postgres:15-alpine
+    container_name: crm_test_postgres
+    environment:
+      POSTGRES_DB: crm_test_db
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d crm_test_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  test_app:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    container_name: crm_test_app
+    environment:
+      DATABASE_URL: postgresql+asyncpg://test_user:test_password@test_db:5432/crm_test_db
+      POSTGRES_HOST: test_db
+      POSTGRES_USER: test_user
+      POSTGRES_DB: crm_test_db
+      SECRET_KEY: test-secret-key-for-testing-purposes-12345678
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 15
+      REFRESH_TOKEN_EXPIRE_DAYS: 7
+      ENVIRONMENT: testing
+    volumes:
+      - ./app:/app/app
+      - ./tests:/app/tests
+      - ./migrations:/app/migrations
+      - ./alembic.ini:/app/alembic.ini
+    depends_on:
+      test_db:
+        condition: service_healthy
+    command: pytest tests/ -v --cov=app --cov-report=term-missing

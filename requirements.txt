@@ -1,0 +1,44 @@
+# FastAPI Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.23
+alembic==1.12.1
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+
+# Pydantic
+pydantic==2.5.0
+pydantic-settings==2.1.0
+email-validator==2.1.0
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.1
+
+# HTTP Client (for testing)
+httpx==0.25.1
+requests==2.31.0
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+
+# Code Quality
+mypy==1.7.0
+black==23.11.0
+ruff==0.1.6
+isort==5.12.0
+
+# Development
+ipython==8.17.2
+python-dotenv==1.0.0
+
+# Type stubs
+types-passlib==1.7.7.20250602
+sqlalchemy[mypy]==2.0.23

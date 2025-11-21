@@ -1,0 +1,9 @@
+services:
+  app:
+    environment:
+      DEBUG: "true"
+      LOG_LEVEL: DEBUG
+    volumes:
+      - ./app:/app/app:delegated
+      - ./tests:/app/tests:delegated
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --log-level debug
